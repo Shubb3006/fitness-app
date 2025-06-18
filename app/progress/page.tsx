@@ -87,7 +87,7 @@ const page = () => {
         backgroundColor: "rgba(59, 130, 246, 0.2)",
         tension: 0.3,
         fill: true,
-        yAxisID: "y1",
+        yAxisID: "weightScale",
       },
       {
         label: "Body Fat (%)",
@@ -96,11 +96,10 @@ const page = () => {
         backgroundColor: "rgba(234, 88, 12, 0.2)",
         tension: 0.3,
         fill: true,
-        yAxisID: "y2",
+        yAxisID: "fatScale",
       },
     ],
   };
-
   const chartOptions = {
     responsive: true,
     plugins: {
@@ -109,16 +108,24 @@ const page = () => {
       },
     },
     scales: {
-      y1: {
-        type: "linear",
+      weightScale: {
+        type: "linear" as const,
         position: "left",
-        title: { display: true, text: "Weight (kg)" },
+        title: {
+          display: true,
+          text: "Weight (kg)",
+        },
       },
-      y2: {
-        type: "linear",
+      fatScale: {
+        type: "linear" as const,
         position: "right",
-        title: { display: true, text: "Body Fat (%)" },
-        grid: { drawOnChartArea: false },
+        title: {
+          display: true,
+          text: "Body Fat (%)",
+        },
+        grid: {
+          drawOnChartArea: false,
+        },
       },
     },
   };
