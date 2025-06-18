@@ -29,7 +29,7 @@ const page = () => {
   const [fat, setFat] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
-  const [weightLogs, setWeightLogs] = useState<any[]>([]);
+  const [weightLogs, setWeightLogs] = useState([]);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -45,7 +45,7 @@ const page = () => {
 
     fetchWeights();
   }, [user?.id]);
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!weight || !fat) return alert("Please fill all fields");
     setLoading(true);
@@ -109,7 +109,7 @@ const page = () => {
     },
     scales: {
       weightScale: {
-        type: "linear" as const,
+        type: "linear",
         position: "left",
         title: {
           display: true,
@@ -117,7 +117,7 @@ const page = () => {
         },
       },
       fatScale: {
-        type: "linear" as const,
+        type: "linear",
         position: "right",
         title: {
           display: true,
