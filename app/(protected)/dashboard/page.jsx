@@ -1,0 +1,193 @@
+"use client";
+import AddWorkoutModal from "@/components/modals/AddWorkoutModal";
+import UpdateWorkoutModal from "@/components/modals/UpdateWorkoutModal";
+import { useAuthStore } from "@/store/useAutjStore";
+import { useWorkoutStore } from "@/store/useWorkoutStore";
+import { Edit, Loader2, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
+function calculateStreak(workouts) {
+  if (!workouts.length) return 0;
+
+  // get unique dates
+  const dates = [
+    ...new Set(workouts.map((w) => new Date(w.createdAt).toDateString())),
+  ];
+
+  // sort descending (latest first)
+  dates.sort((a, b) => new Date(b) - new Date(a));
+
+  let streak = 0;
+  const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+let currentDate = today;
+
+  for (let i = 0; i < dates.length; i++) {
+    const workoutDate = new Date(dates[i]);
+
+    // difference in days
+    const diff = (currentDate - workoutDate) / (1000 * 60 * 60 * 24);
+
+    if (Math.floor(diff) === 0 || Math.floor(diff) === 1) {
+      streak++;
+      currentDate = workoutDate;
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+}
+
+const Dashboard = () => {
+  const router = useRouter();
+  const { logout } = useAuthStore();
+  const { workouts, getWorkouts, deleteWorkout } = useWorkoutStore();
+  const [isAddingWorkoutModal, setIsAddingWorkoutModal] = useState(false);
+  const [deletingId, setDeletinId] = useState(null);
+  const [updatingWorkout, setUpdatingWorkout] = useState(null);
+
+  async function handleLogout() {
+    await logout();
+    router.push("/signin");
+  }
+
+  useEffect(() => {
+    getWorkouts();
+  }, []);
+
+  async function handleDelete(id) {
+    setDeletinId(id);
+    await deleteWorkout(id);
+  }
+
+  const streak = calculateStreak(workouts);
+  return (
+    <div className="min-h-screen bg-base-200 px-4 py-6 md:px-10">
+      {/* Header */}
+     {/* Header */}
+<div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+  <div>
+    <h1 className="text-4xl font-extrabold tracking-tight">
+      Dashboard 💪
+    </h1>
+    <p className="text-gray-500 text-sm">
+      Track your workouts & progress
+    </p>
+  </div>
+
+  <div className="flex gap-3">
+    <button
+      className="btn btn-neutral rounded-xl px-6 shadow hover:scale-105 transition"
+      onClick={() => setIsAddingWorkoutModal(true)}
+    >
+      + Add Workout
+    </button>
+
+    <button
+      className="btn btn-error rounded-xl px-6 shadow hover:scale-105 transition"
+      onClick={handleLogout}
+    >
+      Logout
+    </button>
+  </div>
+</div>
+
+{/* Streak Card */}
+<div className="bg-base-100 p-6 rounded-2xl shadow mb-8 flex items-center justify-between border border-base-300">
+  <div>
+    <p className="text-sm text-gray-500">Current Streak</p>
+    <h2 className="text-3xl font-bold">{streak} days 🔥</h2>
+    <p className="text-xs text-gray-400 mt-1">
+      {streak > 0 ? "Keep it going 💪" : "Start today 🚀"}
+    </p>
+  </div>
+
+  <div className="text-5xl">🔥</div>
+</div>
+      {/* Empty State */}
+      {workouts.length === 0 ? (
+        <div className="flex flex-col items-center justify-center mt-24 text-center">
+          <p className="text-xl font-semibold">No workouts yet 😔</p>
+          <p className="text-gray-400 mt-1">
+            Start logging your workouts to see progress
+          </p>
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {workouts.map((w) => (
+            <div
+              key={w._id}
+              className="bg-base-100 p-5 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-base-300"
+            >
+              {/* Date + Delete */}
+              <div className="flex justify-between items-center mb-4">
+                <p className="text-sm text-gray-500">
+                  {new Date(w.createdAt).toLocaleDateString()}
+                </p>
+
+                <div className="flex gap-1">
+                  <button
+                    className="btn btn-ghost btn-sm text-red-500 hover:bg-red-100"
+                    onClick={() => handleDelete(w._id)}
+                  >
+                    {deletingId === w._id ? (
+                      <Loader2 className="animate-spin" size={16} />
+                    ) : (
+                      <Trash2 size={16} />
+                    )}
+                  </button>
+
+                  <button
+                    className="btn btn-ghost btn-sm hover:bg-base-200"
+                    onClick={() => setUpdatingWorkout(w)}
+                  >
+                    <Edit size={16} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Exercises */}
+              <div className="space-y-3">
+                {w.exercises?.map((e) => (
+                  <div
+                    key={e._id}
+                    className="bg-base-200 p-3 rounded-xl border border-base-300"
+                  >
+                    <h2 className="font-semibold text-md mb-1 flex justify-between">
+                      {e.name}
+                      <span className="text-xs text-gray-400">
+                        {e.sets.length} sets
+                      </span>
+                    </h2>
+
+                    {e.sets.map((s) => (
+                      <p key={s._id} className="text-sm text-gray-600 ml-1">
+                        {s.reps} reps × {s.weight} kg
+                      </p>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Modal */}
+      {isAddingWorkoutModal && (
+        <AddWorkoutModal setIsAddingWorkoutModal={setIsAddingWorkoutModal} />
+      )}
+      {updatingWorkout && (
+        <UpdateWorkoutModal
+          workout={updatingWorkout}
+          setUpdatingWorkout={setUpdatingWorkout}
+        />
+      )}
+    </div>
+  );
+};
+
+export default Dashboard;
