@@ -99,7 +99,7 @@ const Dashboard = () => {
 <div className="bg-base-100 p-6 rounded-2xl shadow mb-8 flex items-center justify-between border border-base-300">
   <div>
     <p className="text-sm text-gray-500">Current Streak</p>
-    <h2 className="text-3xl font-bold">{streak} days 🔥</h2>
+    <h2 className="text-3xl font-bold">{streak} {streak >1 ? "days" : "day"} 🔥</h2>
     <p className="text-xs text-gray-400 mt-1">
       {streak > 0 ? "Keep it going 💪" : "Start today 🚀"}
     </p>
