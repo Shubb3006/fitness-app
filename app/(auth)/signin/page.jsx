@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-const signin = () => {
+const Signin = () => {
   const router = useRouter();
   const { signin,isSigningIn } = useAuthStore();
   const [formData, setFormData] = useState({
@@ -67,4 +67,4 @@ const signin = () => {
   );
 };
 
-export default signin;
+export default Signin;
