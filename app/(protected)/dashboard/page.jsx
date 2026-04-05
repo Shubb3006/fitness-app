@@ -20,9 +20,9 @@ function calculateStreak(workouts) {
 
   let streak = 0;
   const today = new Date();
-today.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
 
-let currentDate = today;
+  let currentDate = today;
 
   for (let i = 0; i < dates.length; i++) {
     const workoutDate = new Date(dates[i]);
@@ -67,46 +67,48 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-base-200 px-4 py-6 md:px-10">
       {/* Header */}
-     {/* Header */}
-<div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
-  <div>
-    <h1 className="text-4xl font-extrabold tracking-tight">
-      Dashboard 💪
-    </h1>
-    <p className="text-gray-500 text-sm">
-      Track your workouts & progress
-    </p>
-  </div>
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+        <div>
+          <h1 className="text-4xl font-extrabold tracking-tight">
+            Dashboard 💪
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Track your workouts & progress
+          </p>
+        </div>
 
-  <div className="flex gap-3">
-    <button
-      className="btn btn-neutral rounded-xl px-6 shadow hover:scale-105 transition"
-      onClick={() => setIsAddingWorkoutModal(true)}
-    >
-      + Add Workout
-    </button>
+        <div className="flex gap-3">
+          <button
+            className="btn btn-neutral rounded-xl px-6 shadow hover:scale-105 transition"
+            onClick={() => setIsAddingWorkoutModal(true)}
+          >
+            + Add Workout
+          </button>
 
-    <button
-      className="btn btn-error rounded-xl px-6 shadow hover:scale-105 transition"
-      onClick={handleLogout}
-    >
-      Logout
-    </button>
-  </div>
-</div>
+          <button
+            className="btn btn-error rounded-xl px-6 shadow hover:scale-105 transition"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+      </div>
 
-{/* Streak Card */}
-<div className="bg-base-100 p-6 rounded-2xl shadow mb-8 flex items-center justify-between border border-base-300">
-  <div>
-    <p className="text-sm text-gray-500">Current Streak</p>
-    <h2 className="text-3xl font-bold">{streak} {streak >1 ? "days" : "day"} 🔥</h2>
-    <p className="text-xs text-gray-400 mt-1">
-      {streak > 0 ? "Keep it going 💪" : "Start today 🚀"}
-    </p>
-  </div>
+      {/* Streak Card */}
+      <div className="bg-base-100 p-6 rounded-2xl shadow mb-8 flex items-center justify-between border border-base-300">
+        <div>
+          <p className="text-sm text-gray-500">Current Streak</p>
+          <h2 className="text-3xl font-bold">
+            {streak} {streak > 1 ? "days" : "day"} 🔥
+          </h2>
+          <p className="text-xs text-gray-400 mt-1">
+            {streak > 0 ? "Keep it going 💪" : "Start today 🚀"}
+          </p>
+        </div>
 
-  <div className="text-5xl">🔥</div>
-</div>
+        <div className="text-5xl">🔥</div>
+      </div>
       {/* Empty State */}
       {workouts.length === 0 ? (
         <div className="flex flex-col items-center justify-center mt-24 text-center">
