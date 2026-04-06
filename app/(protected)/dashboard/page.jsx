@@ -1,6 +1,7 @@
 "use client";
 import AddWorkoutModal from "@/components/modals/AddWorkoutModal";
 import UpdateWorkoutModal from "@/components/modals/UpdateWorkoutModal";
+import DashboardSkeleton from "@/components/skeletons/DashboardSkeletons";
 import { useAuthStore } from "@/store/useAutjStore";
 import { useWorkoutStore } from "@/store/useWorkoutStore";
 import { Edit, Loader2, Trash2 } from "lucide-react";
@@ -44,7 +45,8 @@ function calculateStreak(workouts) {
 const Dashboard = () => {
   const router = useRouter();
   const { logout } = useAuthStore();
-  const { workouts, getWorkouts, deleteWorkout } = useWorkoutStore();
+  const { workouts, getWorkouts, deleteWorkout, gettingWorkouts } =
+    useWorkoutStore();
   const [isAddingWorkoutModal, setIsAddingWorkoutModal] = useState(false);
   const [deletingId, setDeletinId] = useState(null);
   const [updatingWorkout, setUpdatingWorkout] = useState(null);
@@ -64,6 +66,8 @@ const Dashboard = () => {
   }
 
   const streak = calculateStreak(workouts);
+
+  if (gettingWorkouts) return <DashboardSkeleton />;
   return (
     <div className="min-h-screen bg-base-200 px-4 py-6 md:px-10">
       {/* Header */}
