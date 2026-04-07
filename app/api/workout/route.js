@@ -19,6 +19,7 @@ export async function POST(req,res){
 
         const isValid = exercises.every((ex) => {
             if (!ex.name || ex.name.trim() === "") return false;
+            else ex.name=ex.name.trim();
           
             if (!ex.sets || ex.sets.length === 0) return false;
           

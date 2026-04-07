@@ -67,7 +67,6 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
-      {/* Streak Card */}
 
       <StreakData  />
       <PRdata  />

@@ -10,6 +10,7 @@ const PRdata = () => {
       workouts.flatMap((w) => w.exercises.map((e) => e.name.toLowerCase()))
     ),
   ];
+  console.log(workoutNames);
 
   const prData = workoutNames.map((name) => {
     let maxWeight = 0;
@@ -18,7 +19,7 @@ const PRdata = () => {
       w.exercises.map((e) => {
         if (e.name.toLowerCase() === name) {
           e.sets.map((s) => {
-            maxWeight = Math.max(maxWeight, s.weight);
+            maxWeight = Math.max(maxWeight, Number(s.weight));
           });
         }
       });
