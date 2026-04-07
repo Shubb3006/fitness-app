@@ -40,10 +40,10 @@ const PRdata = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {prData
             .sort((a, b) => b.PR - a.PR)
-            .slice(0, 6)
+            .slice(0, 8)
             .map((item) => (
               <div
-                className="bg-base-200 p-4 rounded-xl border border-base-300 hover:shadow transition"
+                className="bg-base-200 p-4 rounded-xl border border-base-300 hover:shadow-xl transition"
                 key={item.name}
               >
                 <p className="text-sm text-gray-500 capitalize">{item.name}</p>
