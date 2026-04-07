@@ -37,7 +37,7 @@ const PRdata = () => {
       {prData.length === 0 ? (
         <p className="text-sm text-gray-400">No records yet</p>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {prData
             .sort((a, b) => b.PR - a.PR)
             .slice(0, 6)
