@@ -33,7 +33,6 @@ const Dashboard = () => {
     await deleteWorkout(id);
   }
 
-  console.log(workouts);
 
   if (gettingWorkouts) return <DashboardSkeleton />;
   return (
@@ -68,8 +67,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <StreakData  />
-      <PRdata  />
+      <StreakData />
+      <PRdata />
 
       {/* Empty State */}
       {workouts.length === 0 ? (
