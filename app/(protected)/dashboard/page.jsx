@@ -19,11 +19,6 @@ const Dashboard = () => {
   const [deletingId, setDeletinId] = useState(null);
   const [updatingWorkout, setUpdatingWorkout] = useState(null);
 
-  async function handleLogout() {
-    await logout();
-    router.push("/signin");
-  }
-
   useEffect(() => {
     getWorkouts();
   }, []);
@@ -32,7 +27,6 @@ const Dashboard = () => {
     setDeletinId(id);
     await deleteWorkout(id);
   }
-
 
   if (gettingWorkouts) return <DashboardSkeleton />;
   return (
@@ -56,13 +50,6 @@ const Dashboard = () => {
             onClick={() => setIsAddingWorkoutModal(true)}
           >
             + Add Workout
-          </button>
-
-          <button
-            className="btn btn-error rounded-xl px-6 shadow hover:scale-105 transition"
-            onClick={handleLogout}
-          >
-            Logout
           </button>
         </div>
       </div>

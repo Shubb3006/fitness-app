@@ -91,7 +91,7 @@ const Page = () => {
             </div>
           )}
 
-          {workoutSchedule && (
+          {!generatingWorkout && workoutSchedule && (
             <div className="space-y-4">
               {workoutSchedule.map((day, index) => (
                 <div
