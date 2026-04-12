@@ -8,6 +8,9 @@ export const useWorkoutStore=create((set)=>({
     addingWorkout:false,
     deletingWorkout:false,
     updatingWorkout:false,
+    generatingWorkout:false,
+    workoutSchedule:[],
+
 
     getWorkouts:async()=>{
         try {
@@ -83,6 +86,19 @@ export const useWorkoutStore=create((set)=>({
             toast.error(error?.response?.data?.message||error.message,{duration:1000})
         }finally{
             set({gettingWorkout:false})
+        }
+    },
+
+    generateWorkout:async(data)=>{
+        try {
+            set({generatingWorkout:true});
+            const res=await axiosInstance.post("/ai/workout",data);
+            console.log(res.data.data);
+            set({workoutSchedule:res.data.data})
+        } catch (error) {
+            toast.error(error?.response?.data?.message||error.message,{duration:1000})
+        }finally{
+            set({generatingWorkout:false})
         }
     }
 }))
